@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Developer Nor</title>
     
+    <!-- FACEBOOK & SOCIAL PREVIEW META TAGS -->
+    <meta property="og:title" content="Developer Nor - Professional Web & Software Solutions">
+    <meta property="og:description" content="Welcome to Developer Nor's Portfolio. Check out my latest projects in Web Development, Software, and Graphic Design.">
+    <!-- Preview Image Link -->
+    <meta property="og:image" content="https://i.ibb.co.com/vCVbqzc8/Screenshot-20260129-1508031200x630.png">
+    <meta property="og:url" content="https://developernor.netlify.app">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://i.ibb.co.com/vCVbqzc8/Screenshot-20260129-1508031200x630.png">
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -57,7 +69,7 @@
         .hero-img img { max-width: 100%; height: auto; max-height: 550px; filter: drop-shadow(0 0 20px rgba(45,156,219,0.2)); animation: pulse 3s infinite; }
         @keyframes pulse { 0%{transform:scale(1);} 50%{transform:scale(1.02);} 100%{transform:scale(1);} }
 
-        /* --- FLOATING WHATSAPP BUTTON (New Feature) --- */
+        /* --- FLOATING WHATSAPP BUTTON --- */
         .float-wa {
             position: fixed;
             bottom: 30px;
@@ -78,7 +90,6 @@
             animation: waPulse 2s infinite;
         }
         .float-wa:hover { transform: scale(1.1); background-color: #1ebe57; }
-        
         @keyframes waPulse {
             0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
             70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
@@ -157,8 +168,15 @@
         #footerLogo img { max-width: 180px !important; height: auto; display: block; margin-bottom: 20px; }
         .ft-links a { display: block; color: #aaa; margin-bottom: 10px; text-decoration: none; transition: 0.3s; }
         .ft-links a:hover { color: var(--accent); padding-left: 5px; }
+        
+        /* Updated Footer Socials */
         .socials a { display: inline-flex; width: 35px; height: 35px; background: #1f2a3d; color: #fff; border-radius: 50%; justify-content: center; align-items: center; margin-right: 10px; text-decoration: none; transition: 0.3s; }
         .socials a:hover { background: var(--accent); }
+        /* Social Colors */
+        .socials a#ftFb:hover { background: #1877F2; }
+        .socials a#ftYt:hover { background: #FF0000; }
+        .socials a#ftWa:hover { background: #25D366; }
+
         .copyright { text-align: center; padding: 20px; background: #000; font-size: 0.9rem; }
 
         /* --- ZOOM MODAL --- */
@@ -203,7 +221,7 @@
         <div style="color:var(--accent);font-weight:bold;letter-spacing:2px;">LOADING...</div>
     </div>
 
-    <!-- Floating WhatsApp Button (New Feature) -->
+    <!-- Floating WhatsApp Button -->
     <a href="#" class="float-wa" id="waLink" target="_blank" title="Chat on WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
@@ -227,7 +245,7 @@
                         <a href="#services" onclick="toggleMenu()">Services</a>
                         <a href="#projects" onclick="toggleMenu()">Portfolio</a>
                         <a href="#about" onclick="toggleMenu()">About</a>
-                        <!-- New Blog Menu -->
+                        <!-- Blog Menu -->
                         <a href="blog.html" target="_blank" style="color:#2d9cdb; font-weight:700;">Blog</a>
                         <a href="#contact" onclick="toggleMenu()">Contact</a>
                     </div>
@@ -323,10 +341,10 @@
                         <div id="footerLogo"></div>
                         <p style="margin-top:15px;">Building digital experiences with innovation and passion.</p>
                         <div class="socials" style="margin-top:20px;">
-                            <!-- Dynamic Links from Firebase -->
+                            <!-- UPDATED SOCIAL ICONS: Facebook, YouTube, WhatsApp -->
                             <a href="#" id="ftFb" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" id="ftLi" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#" id="ftGh" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href="#" id="ftYt" target="_blank"><i class="fab fa-youtube"></i></a>
+                            <a href="#" id="ftWa" target="_blank"><i class="fab fa-whatsapp"></i></a>
                         </div>
                     </div>
                     <div class="ft-col">
@@ -377,7 +395,7 @@
 
         db.ref('siteConfig/logo').on('value', s=>{if(s.val()){let h=`<img src="${s.val()}">`;document.getElementById('siteLogo').innerHTML=h;document.getElementById('footerLogo').innerHTML=h; document.getElementById('dynamicFavicon').href = s.val();}});
         
-        // CONTACT INFO & SOCIALS & WHATSAPP
+        // CONTACT INFO & WHATSAPP
         db.ref('contactInfo').on('value', s=>{
             let d=s.val();
             if(d){
@@ -385,19 +403,20 @@
                 document.getElementById('dPhone').innerText=d.phone;
                 document.getElementById('dAddr').innerText=d.addr;
                 
-                // Update WhatsApp Link (Using Phone Number)
+                // Update Floating WhatsApp Link
                 let cleanPhone = d.phone ? d.phone.replace(/[^0-9]/g, '') : '';
                 document.getElementById('waLink').href = `https://wa.me/${cleanPhone}`;
             }
         });
 
-        // FETCH SOCIAL LINKS
+        // FETCH SOCIAL LINKS (MAPPED FOR FB, YOUTUBE, WHATSAPP)
         db.ref('socialLinks').on('value', s=>{
             let d = s.val();
             if(d) {
                 if(d.facebook) document.getElementById('ftFb').href = d.facebook;
-                if(d.linkedin) document.getElementById('ftLi').href = d.linkedin;
-                if(d.github) document.getElementById('ftGh').href = d.github;
+                // Mapping: 'linkedin' db field -> YouTube, 'github' db field -> WhatsApp
+                if(d.linkedin) document.getElementById('ftYt').href = d.linkedin; 
+                if(d.github) document.getElementById('ftWa').href = d.github; 
             }
         });
 
@@ -458,6 +477,18 @@
         function openZoom(u){document.getElementById('zoomImg').src=u;document.getElementById('zoomModal').style.display='flex';}
         function closeZoom(){document.getElementById('zoomModal').style.display='none';}
         function sendMessage(e){e.preventDefault();db.ref('contact_messages').push({name:document.getElementById('mName').value,email:document.getElementById('mEmail').value,msg:document.getElementById('mMsg').value,date:new Date().toLocaleString()},()=>alert("Sent!"));}
+
+        // --- VISITOR COUNTER LOGIC (UPDATED) ---
+        function updateVisitorCount() {
+            if (!localStorage.getItem('hasVisited')) {
+                const counterRef = db.ref('siteStats/visitors');
+                counterRef.transaction((current_value) => {
+                    return (current_value || 0) + 1;
+                });
+                localStorage.setItem('hasVisited', 'true');
+            }
+        }
+        updateVisitorCount();
     </script>
 </body>
 </html>
