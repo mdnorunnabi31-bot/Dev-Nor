@@ -476,19 +476,30 @@
 
         function openZoom(u){document.getElementById('zoomImg').src=u;document.getElementById('zoomModal').style.display='flex';}
         function closeZoom(){document.getElementById('zoomModal').style.display='none';}
-        function sendMessage(e){e.preventDefault();db.ref('contact_messages').push({name:document.getElementById('mName').value,email:document.getElementById('mEmail').value,msg:document.getElementById('mMsg').value,date:new Date().toLocaleString()},()=>alert("Sent!"));}
+        function sendMessage(e) {
+    e.preventDefault();
+    db.ref('contact_messages').push({
+        name: document.getElementById('mName').value,
+        email: document.getElementById('mEmail').value,
+        subject: document.getElementById('mSub').value, // এটি আগে ছিল না
+        message: document.getElementById('mMsg').value, // 'msg' এর বদলে 'message' হবে
+        date: new Date().toLocaleString()
+    }, () => {
+        alert("আপনার মেসেজটি সফলভাবে পাঠানো হয়েছে!");
+        e.target.reset(); // মেসেজ পাঠানোর পর ফর্মটি খালি হয়ে যাবে
+    });
+}
 
-        // --- VISITOR COUNTER LOGIC (UPDATED) ---
-        function updateVisitorCount() {
-            if (!localStorage.getItem('hasVisited')) {
-                const counterRef = db.ref('siteStats/visitors');
-                counterRef.transaction((current_value) => {
-                    return (current_value || 0) + 1;
-                });
-                localStorage.setItem('hasVisited', 'true');
-            }
-        }
-        updateVisitorCount();
+        // ভিজিটর কাউন্টার লজিক
+function updateVisitorCount() {
+    // যদি চান প্রতিবার ওয়েবসাইট ওপেন করলে কাউন্ট হবে, তবে নিচের ১টি লাইন ব্যবহার করুন
+    const counterRef = db.ref('siteStats/visitors');
+    counterRef.transaction((current_value) => {
+        return (current_value || 0) + 1;
+    });
+}
+updateVisitorCount();
     </script>
 </body>
 </html>
+
